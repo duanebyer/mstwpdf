@@ -548,7 +548,7 @@ void c_mstwpdf::update(double x,double q)
   cont.phot = parton(13,x,q);
 }
 
-double c_mstwpdf::parton(int f,double x,double q)
+double c_mstwpdf::parton(int f,double x,double q) const
   // Returns the PDF value for parton of flavour 'f' at x,q.
 {
   double qsq;
@@ -660,7 +660,7 @@ double c_mstwpdf::parton(int f,double x,double q)
   return parton_pdf;
 }
 
-double c_mstwpdf::parton_interpolate(int ip, double xxx, double qqq)
+double c_mstwpdf::parton_interpolate(int ip, double xxx, double qqq) const
 {
   double g;
   int n,m,l;
@@ -681,7 +681,7 @@ double c_mstwpdf::parton_interpolate(int ip, double xxx, double qqq)
   return g;
 }
 
-double c_mstwpdf::parton_extrapolate(int ip, double xxx, double qqq)
+double c_mstwpdf::parton_extrapolate(int ip, double xxx, double qqq) const
 {
   double parton_pdf=0.;
   int n,m;

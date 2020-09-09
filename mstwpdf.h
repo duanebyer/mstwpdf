@@ -50,8 +50,8 @@ class c_mstwpdf {
   static double xx[nx+1];   // grid points in x
   static double qq[nq+1];   // grid points in q^2
   double c[np+1][nx][nq][5][5]; // coefficients used for interpolation
-  double parton_interpolate(int flavour,double xxx,double qqq);
-  double parton_extrapolate(int flavour,double xxx,double qqq);
+  double parton_interpolate(int flavour,double xxx,double qqq) const;
+  double parton_extrapolate(int flavour,double xxx,double qqq) const;
   bool warn,fatal;
  public:
   struct s_partoncontent {
@@ -62,7 +62,7 @@ class c_mstwpdf {
   double distance,tolerance;
   int alphaSorder,alphaSnfmax;
   void update(double x,double q); // update cont
-  double parton(int flavour,double x,double q);
+  double parton(int flavour,double x,double q) const;
   // The constructor (initialises the functions):
   c_mstwpdf(string filename,bool warn=false,bool fatal=true);
 };
