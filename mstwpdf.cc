@@ -39,6 +39,7 @@
 #include <string>
 
 using namespace std;
+using namespace mstw;
 
 int locate(double xx[],int n,double x)
   // returns an integer j such that x lies inbetween xx[j] and xx[j+1].

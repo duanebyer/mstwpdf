@@ -32,6 +32,8 @@
 #ifndef _MSTWPDF_H_INCLUDED_
 #define _MSTWPDF_H_INCLUDED_
 
+namespace mstw {
+
 class c_mstwpdf {
  private:
   const static int np=12;   // number of parton flavours
@@ -58,5 +60,7 @@ class c_mstwpdf {
   // The constructor (initialises the functions):
   c_mstwpdf(char const* filename,bool warn=false,bool fatal=true);
 };
+
+}
 
 #endif

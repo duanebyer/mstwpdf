@@ -11,6 +11,7 @@
 #include <string>
 
 using namespace std;
+using namespace mstw;
 
 // Wrapper around Fortran code for alpha_S.
 extern "C" {
