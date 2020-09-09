@@ -29,6 +29,8 @@
 // This method is faster if only one flavour needs to be evaluated.
 /////////////////////////////////////////////////////////////////////
 
+#include <istream>
+
 #ifndef _MSTWPDF_H_INCLUDED_
 #define _MSTWPDF_H_INCLUDED_
 
@@ -48,6 +50,7 @@ class c_mstwpdf {
   double parton_extrapolate(int flavour,double xxx,double qqq) const;
   bool extrapolate;
   bool fatal;
+  void init(std::istream& data_file,bool extrapolate,bool fatal,char const* filename);
  public:
   struct s_partoncontent {
     double upv,dnv,usea,dsea,str,sbar,chm,cbar,bot,bbar,glu,phot;
@@ -60,6 +63,7 @@ class c_mstwpdf {
   double parton(int flavour,double x,double q) const;
   // The constructor (initialises the functions):
   c_mstwpdf(char const* filename,bool extrapolate=false,bool fatal=true);
+  c_mstwpdf(std::istream& data_file, bool extrapolate=false, bool fatal=true);
 };
 
 }

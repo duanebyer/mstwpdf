@@ -88,6 +88,19 @@ double c_mstwpdf::xx[nx+1];
 double c_mstwpdf::qq[nq+1];
 
 c_mstwpdf::c_mstwpdf(char const* filename,bool extrapolate_in,bool fatal_in)
+{
+  ifstream data_file(filename);
+  if (data_file.fail()) {
+    throw runtime_error(string("Couldn't open file: ") + filename);
+  }
+  init(data_file,extrapolate_in,fatal_in,filename);
+}
+
+c_mstwpdf::c_mstwpdf(istream& data_file,bool extrapolate_in,bool fatal_in)
+{
+  init(data_file,extrapolate_in,fatal_in,"<istream>");
+}
+void c_mstwpdf::init(istream& data_file,bool extrapolate_in,bool fatal_in,char const* filename)
   // The constructor: this will initialise the functions automatically.
 {
   int i,n,m,k,l,j; // counters
@@ -249,12 +262,8 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool extrapolate_in,bool fatal_in)
   qq[47]=5.6E8;
   qq[48]=1E9;
 
-  // The name of the file to open is stored in 'filename'.
-  ifstream data_file;
-  data_file.open(filename);
-
   if (data_file.fail()) {
-    throw std::runtime_error(string("Error opening file ") + filename);
+    throw runtime_error(string("Invalid input stream: ") + filename);
   }
 
   // Read distance, tolerance, heavy quark masses
@@ -279,7 +288,7 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool extrapolate_in,bool fatal_in)
   // Check that the heavy quark masses are sensible.
   // Redistribute grid points if not in usual range.
   if (mc2 <= qq[1] || mc2+eps >= qq[8]) {
-    throw std::invalid_argument(std::string("Invalid mCharm: ") + std::to_string(mCharm));
+    throw invalid_argument(string("Invalid mCharm: ") + to_string(mCharm));
   }
   else if (mc2 < qq[2]) {
     nqc0 = 2;
@@ -303,7 +312,7 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool extrapolate_in,bool fatal_in)
     qq[5] = qq[7];
   }
   if (mb2 <= qq[12] || mb2+eps >= qq[17]) {
-    throw std::invalid_argument(std::string("Invalid mBottom: ") + std::to_string(mBottom));
+    throw invalid_argument(string("Invalid mBottom: ") + to_string(mBottom));
   }
   else if (mb2 < qq[13]) {
     nqb0 = 13;
@@ -325,7 +334,7 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool extrapolate_in,bool fatal_in)
   // with future grids where, for example, a photon distribution
   // might be provided (cf. the MRST2004QED PDFs).
   if (nExtraFlavours < 0 || nExtraFlavours > 1) {
-    throw std::invalid_argument(std::string("Invalid nExtraFlavours: ") + std::to_string(nExtraFlavours));
+    throw invalid_argument(string("Invalid nExtraFlavours: ") + to_string(nExtraFlavours));
   }
 
   // Now read in the grids from the grid file.
@@ -346,18 +355,15 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool extrapolate_in,bool fatal_in)
       else
         f[12][n][m] = 0.; // photon
       if (data_file.eof()) {
-        throw std::runtime_error(std::string("Error reading from ") + filename);
+        throw runtime_error(string("Error reading from stream: ") + filename);
       }
     }
 
   // Check that ALL the file contents have been read in.
   data_file >> dtemp;
   if (!data_file.eof()) {
-    throw std::runtime_error(std::string("Error reading from ") + filename);
+    throw runtime_error(string("Error reading from stream: ") + filename);
   }
-
-  // Close the datafile.
-  data_file.close();
 
   // PDFs are identically zero at x = 1.
   for (i=1;i<=np;i++)
@@ -574,19 +580,19 @@ double c_mstwpdf::parton(int f,double x,double q) const
     interpolate=0;
     if (x<=0.) {
       if (fatal) {
-        throw std::domain_error("Kinematic variable x cannot be <= 0: " + std::to_string(x));
+        throw domain_error("Kinematic variable x cannot be <= 0: " + to_string(x));
       }
       else {
-        return std::numeric_limits<double>::quiet_NaN();
+        return numeric_limits<double>::quiet_NaN();
       }
     }
   }
   else if (x>xmax) {
     if (fatal) {
-      throw std::domain_error("Kinematic variable x cannot be > " + std::to_string(xmax) + ": " + std::to_string(x));
+      throw domain_error("Kinematic variable x cannot be > " + to_string(xmax) + ": " + to_string(x));
     }
     else {
-      return std::numeric_limits<double>::quiet_NaN();
+      return numeric_limits<double>::quiet_NaN();
     }
   }
 
@@ -594,10 +600,10 @@ double c_mstwpdf::parton(int f,double x,double q) const
     interpolate=-1;
     if (q<=0.) {
       if (fatal) {
-        throw std::domain_error("Kinematic variable q cannot be <= 0: " + std::to_string(q));
+        throw domain_error("Kinematic variable q cannot be <= 0: " + to_string(q));
       }
       else {
-        return std::numeric_limits<double>::quiet_NaN();
+        return numeric_limits<double>::quiet_NaN();
       }
     }
   }
@@ -613,10 +619,10 @@ double c_mstwpdf::parton(int f,double x,double q) const
   else if (abs(f)==6 || f==12) return 0.;
   else {
     if (fatal) {
-      throw std::domain_error("Unrecognized flavour index: " + std::to_string(f));
+      throw domain_error("Unrecognized flavour index: " + to_string(f));
     }
     else {
-      return std::numeric_limits<double>::quiet_NaN();
+      return numeric_limits<double>::quiet_NaN();
     }
   }
 
@@ -663,10 +669,10 @@ double c_mstwpdf::parton(int f,double x,double q) const
   else { // extrapolate outside PDF grid to low x or high Q^2
     if (!extrapolate) {
       if (fatal) {
-        throw std::domain_error("Out of range (x, qsq) for data grid: " + std::to_string(x) + ", " + std::to_string(qsq));
+        throw domain_error("Out of range (x, qsq) for data grid: " + to_string(x) + ", " + to_string(qsq));
       }
       else {
-        return std::numeric_limits<double>::quiet_NaN();
+        return numeric_limits<double>::quiet_NaN();
       }
     }
     parton_pdf = parton_extrapolate(ip,xxx,qqq);
