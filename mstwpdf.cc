@@ -32,12 +32,11 @@
 
 #include "mstwpdf.h"
 
-#include <stdio.h>
+#include <cmath>
+#include <cstdlib>
 #include <iostream>
 #include <fstream>
-#include <stdlib.h>
 #include <string>
-#include <math.h>
 
 using namespace std;
 
