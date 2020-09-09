@@ -249,8 +249,6 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool warn_in,bool fatal_in)
   qq[48]=1E9;
   
   // The name of the file to open is stored in 'filename'.
-  // Line below can be commented out if you don't want this message.
-  cout << "Reading PDF grid from " << filename << endl;
   ifstream data_file;
   data_file.open(filename);
 
