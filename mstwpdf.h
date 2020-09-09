@@ -46,7 +46,7 @@ class c_mstwpdf {
   double c[np+1][nx][nq][5][5]; // coefficients used for interpolation
   double parton_interpolate(int flavour,double xxx,double qqq) const;
   double parton_extrapolate(int flavour,double xxx,double qqq) const;
-  bool warn,fatal;
+  bool fatal;
  public:
   struct s_partoncontent {
     double upv,dnv,usea,dsea,str,sbar,chm,cbar,bot,bbar,glu,phot;
@@ -58,7 +58,7 @@ class c_mstwpdf {
   void update(double x,double q); // update cont
   double parton(int flavour,double x,double q) const;
   // The constructor (initialises the functions):
-  c_mstwpdf(char const* filename,bool warn=false,bool fatal=true);
+  c_mstwpdf(char const* filename,bool fatal=true);
 };
 
 }
