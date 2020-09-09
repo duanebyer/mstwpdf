@@ -50,7 +50,7 @@ int locate(double xx[],int n,double x)
 {
   int ju,jm,jl(0),j;
   ju=n+1;
-  
+
   while (ju-jl>1) {
     jm=(ju+jl)/2; // compute a mid point.
     if ( x>= xx[jm])
@@ -60,7 +60,7 @@ int locate(double xx[],int n,double x)
   if (x==xx[1]) j=1;
   else if (x==xx[n]) j=n-1;
   else j=jl;
-  
+
   return j;
 }
 
@@ -103,21 +103,21 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool fatal_in)
   double f21[np+1][nx+1][nq+1];// cross derivative
 
   int wt[16][16]={{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		  {0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},
-		  {-3,0,0,3,0,0,0,0,-2,0,0,-1,0,0,0,0},
-		  {2,0,0,-2,0,0,0,0,1,0,0,1,0,0,0,0},
-		  {0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
-		  {0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
-		  {0,0,0,0,-3,0,0,3,0,0,0,0,-2,0,0,-1},
-		  {0,0,0,0,2,0,0,-2,0,0,0,0,1,0,0,1},
-		  {-3,3,0,0,-2,-1,0,0,0,0,0,0,0,0,0,0},
-		  {0,0,0,0,0,0,0,0,-3,3,0,0,-2,-1,0,0},
-		  {9,-9,9,-9,6,3,-3,-6,6,-6,-3,3,4,2,1,2},
-		  {-6,6,-6,6,-4,-2,2,4,-3,3,3,-3,-2,-1,-1,-2},
-		  {2,-2,0,0,1,1,0,0,0,0,0,0,0,0,0,0},
-		  {0,0,0,0,0,0,0,0,2,-2,0,0,1,1,0,0},
-		  {-6,6,-6,6,-3,-3,3,3,-4,4,2,-2,-2,-2,-1,-1},
-		  {4,-4,4,-4,2,2,-2,-2,2,-2,-2,2,1,1,1,1}};
+    {0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},
+    {-3,0,0,3,0,0,0,0,-2,0,0,-1,0,0,0,0},
+    {2,0,0,-2,0,0,0,0,1,0,0,1,0,0,0,0},
+    {0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
+    {0,0,0,0,-3,0,0,3,0,0,0,0,-2,0,0,-1},
+    {0,0,0,0,2,0,0,-2,0,0,0,0,1,0,0,1},
+    {-3,3,0,0,-2,-1,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,-3,3,0,0,-2,-1,0,0},
+    {9,-9,9,-9,6,3,-3,-6,6,-6,-3,3,4,2,1,2},
+    {-6,6,-6,6,-4,-2,2,4,-3,3,3,-3,-2,-1,-1,-2},
+    {2,-2,0,0,1,1,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,2,-2,0,0,1,1,0,0},
+    {-6,6,-6,6,-3,-3,3,3,-4,4,2,-2,-2,-2,-1,-1},
+    {4,-4,4,-4,2,2,-2,-2,2,-2,-2,2,1,1,1,1}};
   double xxd,d1d2,cl[16],x[16],d1,d2,y[5],y1[5],y2[5],y12[5];
   double mc2,mb2,eps=1e-6; // q^2 grid points at mc2+eps, mb2+eps
 
@@ -197,9 +197,9 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool fatal_in)
   xx[62]=.95E0;
   xx[63]=.975E0;
   xx[64]=1E0;
-  
+
   // ditto for qq array
-  
+
   qq[0]=0;
   qq[1]=1.E0;
   qq[2]=1.25E0;
@@ -249,7 +249,7 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool fatal_in)
   qq[46]=3.2E8;
   qq[47]=5.6E8;
   qq[48]=1E9;
-  
+
   // The name of the file to open is stored in 'filename'.
   ifstream data_file;
   data_file.open(filename);
@@ -333,38 +333,38 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool fatal_in)
   for (n=1;n<=nx-1;n++) 
     for (m=1;m<=nq;m++) {
       for (i=1;i<=9;i++)
-	data_file >> f[i][n][m];
+        data_file >> f[i][n][m];
       if (alphaSorder==2) { // only at NNLO
-	data_file >> f[10][n][m]; // = chm-cbar
-	data_file >> f[11][n][m]; // = bot-bbar
+        data_file >> f[10][n][m]; // = chm-cbar
+        data_file >> f[11][n][m]; // = bot-bbar
       }
       else {
-	f[10][n][m] = 0.; // = chm-cbar
-	f[11][n][m] = 0.; // = bot-bbar
+        f[10][n][m] = 0.; // = chm-cbar
+        f[11][n][m] = 0.; // = bot-bbar
       }
       if (nExtraFlavours>0)
-	data_file >> f[12][n][m];   // = photon
+        data_file >> f[12][n][m];   // = photon
       else
-	f[12][n][m] = 0.; // photon
+        f[12][n][m] = 0.; // photon
       if (data_file.eof()) {
         throw std::runtime_error(std::string("Error reading from ") + filename);
       }
     }
-  
+
   // Check that ALL the file contents have been read in.
   data_file >> dtemp;
   if (!data_file.eof()) {
     throw std::runtime_error(std::string("Error reading from ") + filename);
   }
-  
+
   // Close the datafile.
   data_file.close();
-  
+
   // PDFs are identically zero at x = 1.
   for (i=1;i<=np;i++)
     for (m=1;m<=nq;m++)
       f[i][nx][m]=0.0;
-  
+
   // Set up the new array in log10(x) and log10(qsq).
   for (i=1;i<=nx;i++)
     xx[i]=log10(xx[i]);
@@ -380,7 +380,7 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool fatal_in)
       f1[i][1][m]=polderivative1(xx[1],xx[2],xx[3],f[i][1][m],f[i][2][m],f[i][3][m]);
       // Then along the rest (up to the last):
       for (k=2;k<nx;k++)
-	f1[i][k][m]=polderivative2(xx[k-1],xx[k],xx[k+1],f[i][k-1][m],f[i][k][m],f[i][k+1][m]);
+        f1[i][k][m]=polderivative2(xx[k-1],xx[k],xx[k+1],f[i][k-1][m],f[i][k][m],f[i][k+1][m]);
       // Then for the last column:
       f1[i][nx][m]=polderivative3(xx[nx-2],xx[nx-1],xx[nx],f[i][nx-2][m],f[i][nx-1][m],f[i][nx][m]);
     }
@@ -391,34 +391,34 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool fatal_in)
     // the same way as at the endpoints qsqmin and qsqmax.
     for (m=1;m<=nq;m++) {
       if (nqc0==2 && m==1) {
-	for (k=1;k<=nx;k++)
-	  f2[i][k][m]=(f[i][k][m+1]-f[i][k][m])/(qq[m+1]-qq[m]);
+        for (k=1;k<=nx;k++)
+          f2[i][k][m]=(f[i][k][m+1]-f[i][k][m])/(qq[m+1]-qq[m]);
       }
       else if (nqc0==2 && m==2) {
-	for (k=1;k<=nx;k++)
-	  f2[i][k][m]=(f[i][k][m]-f[i][k][m-1])/(qq[m]-qq[m-1]);
+        for (k=1;k<=nx;k++)
+          f2[i][k][m]=(f[i][k][m]-f[i][k][m-1])/(qq[m]-qq[m-1]);
       }
       else if (m==1 || m==nqc0+1 || m==nqb0+1) {
-	for (k=1;k<=nx;k++)
-	  f2[i][k][m]=polderivative1(qq[m],qq[m+1],qq[m+2],
-				     f[i][k][m],f[i][k][m+1],f[i][k][m+2]);
+        for (k=1;k<=nx;k++)
+          f2[i][k][m]=polderivative1(qq[m],qq[m+1],qq[m+2],
+            f[i][k][m],f[i][k][m+1],f[i][k][m+2]);
       }
       else if (m==nq || m==nqc0 || m==nqb0) {
-	for (k=1;k<=nx;k++)
-	  f2[i][k][m]=polderivative3(qq[m-2],qq[m-1],qq[m],
-				     f[i][k][m-2],f[i][k][m-1],f[i][k][m]);
+        for (k=1;k<=nx;k++)
+          f2[i][k][m]=polderivative3(qq[m-2],qq[m-1],qq[m],
+            f[i][k][m-2],f[i][k][m-1],f[i][k][m]);
       }
       else {
-	// The rest:
-	for (k=1;k<=nx;k++)
-	  f2[i][k][m]=polderivative2(qq[m-1],qq[m],qq[m+1],
-				    f[i][k][m-1],f[i][k][m],f[i][k][m+1]);
+        // The rest:
+        for (k=1;k<=nx;k++)
+          f2[i][k][m]=polderivative2(qq[m-1],qq[m],qq[m+1],
+            f[i][k][m-1],f[i][k][m],f[i][k][m+1]);
       }
     }
-    
+
     // Now, calculate the cross derivatives.
     // Calculate these as the average between (d/dx)(d/dy) and (d/dy)(d/dx).
-    
+
     // First calculate (d/dx)(d/dy).
     // Start by calculating the first x derivatives
     // along the first x value:
@@ -427,7 +427,7 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool fatal_in)
     // Then along the rest (up to the last):
     for (k=2;k<nx;k++) {
       for (m=1;m<=nq;m++)
-	f12[i][k][m]=polderivative2(xx[k-1],xx[k],xx[k+1],f2[i][k-1][m],f2[i][k][m],f2[i][k+1][m]);
+        f12[i][k][m]=polderivative2(xx[k-1],xx[k],xx[k+1],f2[i][k-1][m],f2[i][k][m],f2[i][k+1][m]);
     }
     // Then for the last column:
     for (m=1;m<=nq;m++)
@@ -436,81 +436,81 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool fatal_in)
     // Now calculate (d/dy)(d/dx).
     for (m=1;m<=nq;m++) {
       if (nqc0==2 && m==1) {
-	for (k=1;k<=nx;k++)
-	  f21[i][k][m]=(f1[i][k][m+1]-f1[i][k][m])/(qq[m+1]-qq[m]);
+        for (k=1;k<=nx;k++)
+          f21[i][k][m]=(f1[i][k][m+1]-f1[i][k][m])/(qq[m+1]-qq[m]);
       }
       else if (nqc0==2 && m==2) {
-	for (k=1;k<=nx;k++)
-	  f21[i][k][m]=(f1[i][k][m]-f1[i][k][m-1])/(qq[m]-qq[m-1]);
+        for (k=1;k<=nx;k++)
+          f21[i][k][m]=(f1[i][k][m]-f1[i][k][m-1])/(qq[m]-qq[m-1]);
       }
       else if (m==1 || m==nqc0+1 || m==nqb0+1) {
-	for (k=1;k<=nx;k++)
-	  f21[i][k][m]=polderivative1(qq[m],qq[m+1],qq[m+2],
-				      f1[i][k][m],f1[i][k][m+1],f1[i][k][m+2]);
+        for (k=1;k<=nx;k++)
+          f21[i][k][m]=polderivative1(qq[m],qq[m+1],qq[m+2],
+            f1[i][k][m],f1[i][k][m+1],f1[i][k][m+2]);
       }
       else if (m==nq || m==nqc0 || m==nqb0) {
-	for (k=1;k<=nx;k++)
-	  f21[i][k][m]=polderivative3(qq[m-2],qq[m-1],qq[m],
-				      f1[i][k][m-2],f1[i][k][m-1],f1[i][k][m]);
+        for (k=1;k<=nx;k++)
+          f21[i][k][m]=polderivative3(qq[m-2],qq[m-1],qq[m],
+            f1[i][k][m-2],f1[i][k][m-1],f1[i][k][m]);
       }
       else {
-	// The rest:
-	for (k=1;k<=nx;k++)
-	  f21[i][k][m]=polderivative2(qq[m-1],qq[m],qq[m+1],
-				     f1[i][k][m-1],f1[i][k][m],f1[i][k][m+1]);
+        // The rest:
+        for (k=1;k<=nx;k++)
+          f21[i][k][m]=polderivative2(qq[m-1],qq[m],qq[m+1],
+            f1[i][k][m-1],f1[i][k][m],f1[i][k][m+1]);
       }
     }
 
     // Now take the average of (d/dx)(d/dy) and (d/dy)(d/dx).
     for (k=1;k<=nx;k++) {
       for (m=1;m<=nq;m++) {
-	f12[i][k][m] = 0.5*(f12[i][k][m]+f21[i][k][m]);
+        f12[i][k][m] = 0.5*(f12[i][k][m]+f21[i][k][m]);
       }
     }
 
     // Now calculate the coefficients c_ij.
     for (n=1;n<=nx-1;n++) {
       for (m=1;m<=nq-1;m++) {
-	d1=xx[n+1]-xx[n];
-	d2=qq[m+1]-qq[m];
-	d1d2=d1*d2;
-	
-	y[1]=f[i][n][m];
-	y[2]=f[i][n+1][m];
-	y[3]=f[i][n+1][m+1];
-	y[4]=f[i][n][m+1];
-	
-	y1[1]=f1[i][n][m];
-	y1[2]=f1[i][n+1][m];
-	y1[3]=f1[i][n+1][m+1];
-	y1[4]=f1[i][n][m+1];
-	
-	y2[1]=f2[i][n][m];
-	y2[2]=f2[i][n+1][m];
-	y2[3]=f2[i][n+1][m+1];
-	y2[4]=f2[i][n][m+1];
-	
-	y12[1]=f12[i][n][m];
-	y12[2]=f12[i][n+1][m];
-	y12[3]=f12[i][n+1][m+1];
-	y12[4]=f12[i][n][m+1];
-	
-	for (k=1;k<=4;k++) {
-	  x[k-1]=y[k];
-	  x[k+3]=y1[k]*d1;
-	  x[k+7]=y2[k]*d2;
-	  x[k+11]=y12[k]*d1d2;
-	}
-	
-	for (l=0;l<=15;l++) {
-	  xxd=0.0;
-	  for (k=0;k<=15;k++) xxd+= wt[l][k]*x[k];
-	  cl[l]=xxd;
-	}
-	
-	l=0;
-	for (k=1;k<=4;k++) 
-	  for (j=1;j<=4;j++) c[i][n][m][k][j]=cl[l++];
+        d1=xx[n+1]-xx[n];
+        d2=qq[m+1]-qq[m];
+        d1d2=d1*d2;
+
+        y[1]=f[i][n][m];
+        y[2]=f[i][n+1][m];
+        y[3]=f[i][n+1][m+1];
+        y[4]=f[i][n][m+1];
+
+        y1[1]=f1[i][n][m];
+        y1[2]=f1[i][n+1][m];
+        y1[3]=f1[i][n+1][m+1];
+        y1[4]=f1[i][n][m+1];
+
+        y2[1]=f2[i][n][m];
+        y2[2]=f2[i][n+1][m];
+        y2[3]=f2[i][n+1][m+1];
+        y2[4]=f2[i][n][m+1];
+
+        y12[1]=f12[i][n][m];
+        y12[2]=f12[i][n+1][m];
+        y12[3]=f12[i][n+1][m+1];
+        y12[4]=f12[i][n][m+1];
+
+        for (k=1;k<=4;k++) {
+          x[k-1]=y[k];
+          x[k+3]=y1[k]*d1;
+          x[k+7]=y2[k]*d2;
+          x[k+11]=y12[k]*d1d2;
+        }
+
+        for (l=0;l<=15;l++) {
+          xxd=0.0;
+          for (k=0;k<=15;k++) xxd+= wt[l][k]*x[k];
+          cl[l]=xxd;
+        }
+
+        l=0;
+        for (k=1;k<=4;k++) 
+          for (j=1;j<=4;j++) c[i][n][m][k][j]=cl[l++];
       } //m
     } //n
   } // i
@@ -605,7 +605,7 @@ double c_mstwpdf::parton(int f,double x,double q) const
   else if (qsq>qsqmax) {
     interpolate=0;
   }
-  
+
   if (f==0) ip=1;
   else if (f>=1 && f<=5) ip=f+1;
   else if (f<=-1 && f>=-5) ip=-f+1;
@@ -636,16 +636,16 @@ double c_mstwpdf::parton(int f,double x,double q) const
       parton_pdf = parton_extrapolate(ip,xxx,log10(qsqmin));
       parton_pdf1 = parton_extrapolate(ip,xxx,log10(1.01*qsqmin));
       if (f<=-1 && f>=-5) { // antiquark = quark - valence
-	parton_pdf -= parton_extrapolate(ip+5,xxx,log10(qsqmin));
-	parton_pdf1 -= parton_extrapolate(ip+5,xxx,log10(1.01*qsqmin));
+        parton_pdf -= parton_extrapolate(ip+5,xxx,log10(qsqmin));
+        parton_pdf1 -= parton_extrapolate(ip+5,xxx,log10(1.01*qsqmin));
       }
     }
     else { // do usual interpolation
       parton_pdf = parton_interpolate(ip,xxx,log10(qsqmin));
       parton_pdf1 = parton_interpolate(ip,xxx,log10(1.01*qsqmin));
       if (f<=-1 && f>=-5) { // antiquark = quark - valence
-	parton_pdf -= parton_interpolate(ip+5,xxx,log10(qsqmin));
-	parton_pdf1 -= parton_interpolate(ip+5,xxx,log10(1.01*qsqmin));
+        parton_pdf -= parton_interpolate(ip+5,xxx,log10(qsqmin));
+        parton_pdf1 -= parton_interpolate(ip+5,xxx,log10(1.01*qsqmin));
       }
     }
     // Calculate the anomalous dimension, dlog(xf)/dlog(qsq),
@@ -664,7 +664,7 @@ double c_mstwpdf::parton(int f,double x,double q) const
   else { // extrapolate outside PDF grid to low x or high Q^2
     if (true)
       cerr << "Warning in c_mstwpdf::parton, extrapolating: f = " 
-	   << f << ", x = " << x << ", q = " << q << endl;
+        << f << ", x = " << x << ", q = " << q << endl;
     parton_pdf = parton_extrapolate(ip,xxx,qqq);
     if (f<=-1 && f>=-5) // antiquark = quark - valence
       parton_pdf -= parton_extrapolate(ip+5,xxx,qqq);
@@ -681,16 +681,16 @@ double c_mstwpdf::parton_interpolate(int ip, double xxx, double qqq) const
 
   n=locate(xx,nx,xxx); // 0: below xmin, nx: above xmax
   m=locate(qq,nq,qqq); // 0: below qsqmin, nq: above qsqmax
-  
+
   t=(xxx-xx[n])/(xx[n+1]-xx[n]);
   u=(qqq-qq[m])/(qq[m+1]-qq[m]);
-  
+
   g=0.0;
   for (l=4;l>=1;l--) {
     g=t*g+((c[ip][n][m][l][4]*u+c[ip][n][m][l][3])*u
-	   +c[ip][n][m][l][2])*u+c[ip][n][m][l][1];
+      +c[ip][n][m][l][2])*u+c[ip][n][m][l][1];
   }
-  
+
   return g;
 }
 
@@ -701,9 +701,9 @@ double c_mstwpdf::parton_extrapolate(int ip, double xxx, double qqq) const
 
   n=locate(xx,nx,xxx); // 0: below xmin, nx: above xmax
   m=locate(qq,nq,qqq); // 0: below qsqmin, nq: above qsqmax
-  
+
   if (n==0&&(m>0&&m<nq)) { // if extrapolation in small x only
-    
+
     double f0,f1;
     f0=parton_interpolate(ip,xx[1],qqq);
     f1=parton_interpolate(ip,xx[2],qqq);
@@ -713,9 +713,9 @@ double c_mstwpdf::parton_extrapolate(int ip, double xxx, double qqq) const
       parton_pdf=exp(f0+(f1-f0)/(xx[2]-xx[1])*(xxx-xx[1]));
     } else // otherwise just extrapolate in the value
       parton_pdf=f0+(f1-f0)/(xx[2]-xx[1])*(xxx-xx[1]); 
-    
+
   } if (n>0&&m==nq) { // if extrapolation into large q only
-    
+
     double f0,f1;
     f0=parton_interpolate(ip,xxx,qq[nq]);
     f1=parton_interpolate(ip,xxx,qq[nq-1]);
@@ -725,9 +725,9 @@ double c_mstwpdf::parton_extrapolate(int ip, double xxx, double qqq) const
       parton_pdf=exp(f0+(f0-f1)/(qq[nq]-qq[nq-1])*(qqq-qq[nq]));
     } else // otherwise just extrapolate in the value
       parton_pdf=f0+(f0-f1)/(qq[nq]-qq[nq-1])*(qqq-qq[nq]);
-    
+
   } if (n==0&&m==nq) { // if extrapolation into large q AND small x
-    
+
     double f0,f1;
     f0=c_mstwpdf::parton_extrapolate(ip,xx[1],qqq);
     f1=c_mstwpdf::parton_extrapolate(ip,xx[2],qqq);
@@ -736,9 +736,9 @@ double c_mstwpdf::parton_extrapolate(int ip, double xxx, double qqq) const
       f1=log(f1);
       parton_pdf=exp(f0+(f1-f0)/(xx[2]-xx[1])*(xxx-xx[1]));
     } else // otherwise just extrapolate in the value
-      parton_pdf=f0+(f1-f0)/(xx[2]-xx[1])*(xxx-xx[1]);       
-    
+      parton_pdf=f0+(f1-f0)/(xx[2]-xx[1])*(xxx-xx[1]);
+
   }
-  
+
   return parton_pdf;
 }
