@@ -16,6 +16,7 @@ add_library(
 	mstwpdf.cc
 	alphaS.f
 	mstwpdf.h)
+add_library(MSTWPDF::mstwpdf ALIAS mstwpdf)
 target_include_directories(mstwpdf PUBLIC ".")
 target_compile_features(mstwpdf PUBLIC cxx_std_11)
 set_target_properties(mstwpdf PROPERTIES CXX_EXTENSIONS OFF)
