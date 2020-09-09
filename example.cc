@@ -3,7 +3,15 @@
 // Comments to Graeme Watt <Graeme.Watt(at)cern.ch>.               //
 /////////////////////////////////////////////////////////////////////
 #include "mstwpdf.h"
-//#include <vector>
+
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
+#include <stdlib.h>
+#include <string>
+#include <math.h>
+
+using namespace std;
 
 // Wrapper around Fortran code for alpha_S.
 extern "C" {

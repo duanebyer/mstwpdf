@@ -32,6 +32,15 @@
 
 #include "mstwpdf.h"
 
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
+#include <stdlib.h>
+#include <string>
+#include <math.h>
+
+using namespace std;
+
 int locate(double xx[],int n,double x)
   // returns an integer j such that x lies inbetween xx[j] and xx[j+1].
   // unit offset of increasing ordered array xx assumed.
@@ -78,7 +87,7 @@ double c_mstwpdf::xx[nx+1];
 
 double c_mstwpdf::qq[nq+1];
 
-c_mstwpdf::c_mstwpdf(string filename,bool warn_in,bool fatal_in)
+c_mstwpdf::c_mstwpdf(char const* filename,bool warn_in,bool fatal_in)
   // The constructor: this will initialise the functions automatically.
 {
   int i,n,m,k,l,j; // counters
@@ -244,7 +253,7 @@ c_mstwpdf::c_mstwpdf(string filename,bool warn_in,bool fatal_in)
   // Line below can be commented out if you don't want this message.
   cout << "Reading PDF grid from " << filename << endl;
   ifstream data_file;
-  data_file.open(filename.c_str());
+  data_file.open(filename);
 
   if (data_file.fail()) {
     cerr << "Error in c_mstwpdf::c_mstwpdf opening " << filename << endl;

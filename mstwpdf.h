@@ -31,14 +31,6 @@
 
 #ifndef _MSTWPDF_H_INCLUDED_
 #define _MSTWPDF_H_INCLUDED_
-#include <stdio.h>
-#include <iostream>
-#include <fstream>
-#include <stdlib.h>
-#include <string>
-#include <math.h>
-
-using namespace std;
 
 class c_mstwpdf {
  private:
@@ -64,7 +56,7 @@ class c_mstwpdf {
   void update(double x,double q); // update cont
   double parton(int flavour,double x,double q) const;
   // The constructor (initialises the functions):
-  c_mstwpdf(string filename,bool warn=false,bool fatal=true);
+  c_mstwpdf(char const* filename,bool warn=false,bool fatal=true);
 };
 
 #endif
