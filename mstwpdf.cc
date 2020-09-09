@@ -89,7 +89,7 @@ double c_mstwpdf::xx[nx+1];
 
 double c_mstwpdf::qq[nq+1];
 
-c_mstwpdf::c_mstwpdf(char const* filename,bool fatal_in)
+c_mstwpdf::c_mstwpdf(char const* filename,bool extrapolate_in,bool fatal_in)
   // The constructor: this will initialise the functions automatically.
 {
   int i,n,m,k,l,j; // counters
@@ -121,6 +121,7 @@ c_mstwpdf::c_mstwpdf(char const* filename,bool fatal_in)
   double xxd,d1d2,cl[16],x[16],d1,d2,y[5],y1[5],y2[5],y12[5];
   double mc2,mb2,eps=1e-6; // q^2 grid points at mc2+eps, mb2+eps
 
+  extrapolate = extrapolate_in; // option for whether to fail or try to extrapolate outside grids.
   fatal = fatal_in; // option to return NaN instead of terminating when invalid input values of x and q are used.
 
   xmin=1e-6;  // minimum x grid point
@@ -662,9 +663,14 @@ double c_mstwpdf::parton(int f,double x,double q) const
 
   }
   else { // extrapolate outside PDF grid to low x or high Q^2
-    if (true)
-      cerr << "Warning in c_mstwpdf::parton, extrapolating: f = " 
-        << f << ", x = " << x << ", q = " << q << endl;
+    if (!extrapolate) {
+      if (fatal) {
+        throw std::domain_error("Out of range (x, qsq) for data grid: " + std::to_string(x) + ", " + std::to_string(qsq));
+      }
+      else {
+        return std::numeric_limits<double>::quiet_NaN();
+      }
+    }
     parton_pdf = parton_extrapolate(ip,xxx,qqq);
     if (f<=-1 && f>=-5) // antiquark = quark - valence
       parton_pdf -= parton_extrapolate(ip+5,xxx,qqq);
