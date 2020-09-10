@@ -173,7 +173,7 @@ int main (void)
   const int neigen=20; // number of eigenvectors
 
   // Choose either the 90% C.L. error sets or the 68% C.L. error sets
-  char prefix1[100];
+  char prefix1[50];
   sprintf(prefix1,"%s.90cl",prefix); // 90% C.L. errors
   //  sprintf(prefix1,"%s.68cl",prefix); // 68% C.L. errors
 
