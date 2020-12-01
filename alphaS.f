@@ -602,7 +602,7 @@ C        Guaranteed Convergence for Finding a Zero of a Function,
 C        ACM Trans. Math. Software 1 (1975) 330-345.
 C
 C        (MODE = 1: Algorithm M;    MODE = 2: Algorithm R)
-      CHARACTER*80 ERRTXT
+      CHARACTER(len=80) ERRTXT
       LOGICAL LMT
       DIMENSION IM1(2),IM2(2),LMT(2)
       PARAMETER (Z1 = 1, HALF = Z1/2)
