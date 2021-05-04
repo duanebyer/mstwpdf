@@ -16,6 +16,7 @@ add_library(
 	mstwpdf.cc
 	alphaS.f
 	mstwpdf.h)
+add_library(MSTWPDF::mstwpdf ALIAS mstwpdf)
 target_include_directories(mstwpdf PUBLIC ".")
 target_compile_features(mstwpdf PUBLIC cxx_std_11)
 set_target_properties(mstwpdf PROPERTIES CXX_EXTENSIONS OFF)
@@ -43,7 +44,7 @@ set_target_properties(
 	INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}"
 	INSTALL_RPATH_USE_LINK_PATH TRUE)
 install(
-	FILES "${MSTWPDF_SOURCE_DIR}/mstwpdf.h"
+	FILES mstwpdf.h
 	DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/mstwpdf")
 install(
 	TARGETS mstwpdf
