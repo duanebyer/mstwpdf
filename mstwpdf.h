@@ -29,16 +29,12 @@
 // This method is faster if only one flavour needs to be evaluated.
 /////////////////////////////////////////////////////////////////////
 
+#include <istream>
+
 #ifndef _MSTWPDF_H_INCLUDED_
 #define _MSTWPDF_H_INCLUDED_
-#include <stdio.h>
-#include <iostream>
-#include <fstream>
-#include <stdlib.h>
-#include <string>
-#include <math.h>
 
-using namespace std;
+namespace mstw {
 
 class c_mstwpdf {
  private:
@@ -50,9 +46,11 @@ class c_mstwpdf {
   static double xx[nx+1];   // grid points in x
   static double qq[nq+1];   // grid points in q^2
   double c[np+1][nx][nq][5][5]; // coefficients used for interpolation
-  double parton_interpolate(int flavour,double xxx,double qqq);
-  double parton_extrapolate(int flavour,double xxx,double qqq);
-  bool warn,fatal;
+  double parton_interpolate(int flavour,double xxx,double qqq) const;
+  double parton_extrapolate(int flavour,double xxx,double qqq) const;
+  bool extrapolate;
+  bool fatal;
+  void init(std::istream& data_file,bool extrapolate,bool fatal,char const* filename);
  public:
   struct s_partoncontent {
     double upv,dnv,usea,dsea,str,sbar,chm,cbar,bot,bbar,glu,phot;
@@ -62,9 +60,12 @@ class c_mstwpdf {
   double distance,tolerance;
   int alphaSorder,alphaSnfmax;
   void update(double x,double q); // update cont
-  double parton(int flavour,double x,double q);
+  double parton(int flavour,double x,double q) const;
   // The constructor (initialises the functions):
-  c_mstwpdf(string filename,bool warn=false,bool fatal=true);
+  c_mstwpdf(char const* filename,bool extrapolate=false,bool fatal=true);
+  c_mstwpdf(std::istream& data_file, bool extrapolate=false, bool fatal=true);
 };
+
+}
 
 #endif

@@ -3,18 +3,26 @@
 // Comments to Graeme Watt <Graeme.Watt(at)cern.ch>.               //
 /////////////////////////////////////////////////////////////////////
 #include "mstwpdf.h"
-//#include <vector>
+
+#include <cmath>
+#include <cstdlib>
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+using namespace mstw;
 
 // Wrapper around Fortran code for alpha_S.
 extern "C" {
   void initalphas_(int *IORD, double *FR2, double *MUR, double *ASMUR,
-		   double *MC, double *MB, double *MT);
+    double *MC, double *MB, double *MT);
   double alphas_(double *MUR);
 }
 inline void InitAlphaS(int IORD, double FR2, double MUR, double ASMUR,
-		       double MC, double MB, double MT) {
+    double MC, double MB, double MT) {
   initalphas_(&IORD, &FR2, &MUR, &ASMUR,
-	      &MC, &MB, &MT);
+    &MC, &MB, &MT);
 }
 inline double AlphaS(double MUR) {
   return alphas_(&MUR);
@@ -36,7 +44,7 @@ int main (void)
   // Specify the momentum fraction "x" and scale "q".
   double x = 1e-3, q = 1e1;
   cout << "x = " << x << ", q = " << q << endl;
-   
+
   // Update all PDF flavours.
   pdf->update(x,q);
   // Then the individual flavours are accessed from the cont structure.
@@ -53,7 +61,7 @@ int main (void)
   bbar = pdf->cont.bbar;
   glu = pdf->cont.glu;
   phot = pdf->cont.phot;
-  
+
   // If only a single parton flavour needs to be evaluated,
   // then update(x,q) does not need to be called.
   double upv1,dnv1,usea1,dsea1,str1,sbar1,chm1,cbar1,bot1,bbar1,glu1,phot1;
@@ -165,7 +173,7 @@ int main (void)
   const int neigen=20; // number of eigenvectors
 
   // Choose either the 90% C.L. error sets or the 68% C.L. error sets
-  char prefix1[100];
+  char prefix1[50];
   sprintf(prefix1,"%s.90cl",prefix); // 90% C.L. errors
   //  sprintf(prefix1,"%s.68cl",prefix); // 68% C.L. errors
 
@@ -186,7 +194,7 @@ int main (void)
 //     else sprintf(filename,"%s.%2.2d.dat",prefix1,i);
 //     pdfs.push_back(new c_mstwpdf(filename));
 //   }
-  
+
   // First get xf as a function of x at a fixed value of q.
   // Extrapolation will be used for x < 10^-6.
   q = 1e1;
@@ -195,7 +203,7 @@ int main (void)
   ofstream outfile;
   char buffer[100];
   string flavours[] = {"bbar","cbar","sbar","ubar","dbar","glu",
-		       "dn","up","str","chm","bot"};
+    "dn","up","str","chm","bot"};
   for (int flav=-5;flav<=5;flav++) {
     string xflav = "x"+flavours[flav+5];
     string xfilename = xflav+"_vs_x_cpp.dat";
@@ -209,15 +217,15 @@ int main (void)
       xf = pdfs[0]->parton(flav,x,q); // central set
       summax = 0.; summin = 0.; sum = 0.;
       for (int ieigen=1;ieigen<=neigen;ieigen++) { // loop over eigenvector sets
-	xfp = pdfs[2*ieigen-1]->parton(flav,x,q); // "+" direction
-	xfm = pdfs[2*ieigen]->parton(flav,x,q);   // "-" direction
-	double maxtemp;
-	maxtemp = max(xfp-xf,xfm-xf); summax += pow(max(maxtemp,0.),2);
-	maxtemp = max(xf-xfp,xf-xfm); summin += pow(max(maxtemp,0.),2);
-	sum += pow(xfp-xfm,2);
+        xfp = pdfs[2*ieigen-1]->parton(flav,x,q); // "+" direction
+        xfm = pdfs[2*ieigen]->parton(flav,x,q);   // "-" direction
+        double maxtemp;
+        maxtemp = max(xfp-xf,xfm-xf); summax += pow(max(maxtemp,0.),2);
+        maxtemp = max(xf-xfp,xf-xfm); summin += pow(max(maxtemp,0.),2);
+        sum += pow(xfp-xfm,2);
       }
       sprintf(buffer,"%12.4E%12.4E%12.4E%12.4E%12.4E",
-	      x,xf,sqrt(summax),sqrt(summin),0.5*sqrt(sum));
+        x,xf,sqrt(summax),sqrt(summin),0.5*sqrt(sum));
       outfile << buffer << endl;
     }
     outfile.close();
@@ -242,14 +250,14 @@ int main (void)
       xf = pdfs[0]->parton(flav,x,q); // central set
       summax = 0.; summin = 0.; sum = 0.;
       for (int ieigen=1;ieigen<=neigen;ieigen++) { // loop over eigenvector sets
-	xfp = pdfs[2*ieigen-1]->parton(flav,x,q);
-	xfm = pdfs[2*ieigen]->parton(flav,x,q);
-	summax += pow(max(max(xfp-xf,xfm-xf),0.),2);
-	summin += pow(max(max(xf-xfp,xf-xfm),0.),2);
-	sum += pow(xfp-xfm,2);
+        xfp = pdfs[2*ieigen-1]->parton(flav,x,q);
+        xfm = pdfs[2*ieigen]->parton(flav,x,q);
+        summax += pow(max(max(xfp-xf,xfm-xf),0.),2);
+        summin += pow(max(max(xf-xfp,xf-xfm),0.),2);
+        sum += pow(xfp-xfm,2);
       }
       sprintf(buffer,"%12.4E%12.4E%12.4E%12.4E%12.4E",
-	      q*q,xf,sqrt(summax),sqrt(summin),0.5*sqrt(sum));
+        q*q,xf,sqrt(summax),sqrt(summin),0.5*sqrt(sum));
       outfile << buffer << endl;
     }
     outfile.close();
