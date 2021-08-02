@@ -10,6 +10,10 @@ project(
 	HOMEPAGE_URL "https://mstwpdf.hepforge.org/"
 	LANGUAGES CXX Fortran)
 
+set(MSTWPDF_BUILD_EXAMPLE NO
+	CACHE BOOL
+	"should the example be built")
+
 # MSTWPDF library.
 add_library(
 	mstwpdf
@@ -27,15 +31,17 @@ target_compile_options(
 	$<$<CXX_COMPILER_ID:MSVC>:/W4>)
 
 # Example program.
-add_executable(example example.cc)
-target_link_libraries(example PRIVATE mstwpdf)
-target_compile_features(example PRIVATE cxx_std_11)
-set_target_properties(example PROPERTIES CXX_EXTENSIONS OFF)
-target_compile_options(
-	example
-	PRIVATE
-	$<$<OR:$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:-Wall -Wextra -pedantic>
-	$<$<CXX_COMPILER_ID:MSVC>:/W4>)
+if(${MSTWPDF_BUILD_EXAMPLE})
+	add_executable(example example.cc)
+	target_link_libraries(example PRIVATE mstwpdf)
+	target_compile_features(example PRIVATE cxx_std_11)
+	set_target_properties(example PROPERTIES CXX_EXTENSIONS OFF)
+	target_compile_options(
+		example
+		PRIVATE
+		$<$<OR:$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:-Wall -Wextra -pedantic>
+		$<$<CXX_COMPILER_ID:MSVC>:/W4>)
+endif()
 
 # Installation commands.
 include(GNUInstallDirs)
